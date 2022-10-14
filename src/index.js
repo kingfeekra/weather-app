@@ -11,7 +11,7 @@ function getWeather() {
     let searchTerm;
 
     if(searchBar.value == "") {
-        searchTerm = "London";
+        searchTerm = "Dublin";
     }
     else {
         searchTerm = searchBar.value;
