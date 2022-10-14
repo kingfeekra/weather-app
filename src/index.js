@@ -77,7 +77,7 @@ function displayWeather() {
 function setWeatherIcon() {
     const img = document.querySelector(".weatherBox > img");
     const icon = weatherData.icon;
-    img.setAttribute("src", `http://openweathermap.org/img/wn/${icon}@2x.png`)
+    img.setAttribute("src", `https://openweathermap.org/img/wn/${icon}@2x.png`)
 }
 
 function currentTime() {
@@ -98,15 +98,6 @@ function fToC(fahrenheit) {
     return celsius;
 }
 
-/*function tempConvert() {
-    const temp = document.querySelector(".temp");
-    if(temp.textContent.includes("℃")) {
-        temp.textContent = cToF(weatherData.temp) + "°F";
-    }
-    else if(temp.textContent.includes("°F")) {
-        temp.textContent = weatherData.temp + "℃";
-    }
-}*/
 function tempConvert() {
     const temp = document.querySelector(".temp")
     const toggle = document.querySelector(".switch > input");
