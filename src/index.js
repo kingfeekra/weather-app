@@ -24,7 +24,7 @@ function getWeather() {
         units = "metric";
     }
 
-    fetch(`http://api.openweathermap.org/data/2.5/weather?q=${searchTerm}&units=${units}&APPID=3392022e755c4c2fdc374c15c9f7e484`, {mode: 'cors'})
+    fetch(`https://api.openweathermap.org/data/2.5/weather?q=${searchTerm}&units=${units}&APPID=3392022e755c4c2fdc374c15c9f7e484`, {mode: 'cors'})
         .then(function(response) {
         return response.json();
         })
