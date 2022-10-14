@@ -1,9 +1,13 @@
 import "./styles.css";
+import "./toggleStyles.css"
 
 const weatherData = {};
+let units;
 
 function getWeather() {
     const searchBar = document.querySelector(".searchBar");
+    const toggle = document.querySelector(".switch > input");
+
     let searchTerm;
 
     if(searchBar.value == "") {
@@ -13,7 +17,14 @@ function getWeather() {
         searchTerm = searchBar.value;
     }
 
-    fetch(`http://api.openweathermap.org/data/2.5/weather?q=${searchTerm}&units=metric&APPID=3392022e755c4c2fdc374c15c9f7e484`, {mode: 'cors'})
+    if(toggle.checked == true) {
+        units = "imperial";
+    }
+    else if(toggle.checked != true) {
+        units = "metric";
+    }
+
+    fetch(`http://api.openweathermap.org/data/2.5/weather?q=${searchTerm}&units=${units}&APPID=3392022e755c4c2fdc374c15c9f7e484`, {mode: 'cors'})
         .then(function(response) {
         return response.json();
         })
@@ -33,14 +44,13 @@ function getWeather() {
 
 function addDOMStuff() {
     const weatherBox = document.querySelector(".weatherBox");
-    const weatherIcon = document.createElement("img");
-    weatherIcon.setAttribute("alt", "weather-icon");
-    weatherBox.appendChild(weatherIcon);
-
     for(let i = 0; i < 5; i++) {
         const para = document.createElement("p");
-        weatherBox.appendChild(para);
+        weatherBox.insertBefore(para, weatherBox.children[0]);
     }
+    const weatherIcon = document.createElement("img");
+    weatherIcon.setAttribute("alt", "weather-icon");
+    weatherBox.insertBefore(weatherIcon, weatherBox.children[0]);
 }
 
 function displayWeather() {
@@ -50,7 +60,12 @@ function displayWeather() {
     paraList[0].classList.add("location");
     paraList[0].textContent = weatherData.location;
     paraList[1].classList.add("temp");
-    paraList[1].textContent = Math.round(weatherData.temp) + "℃";
+    if(units == "metric") {
+        paraList[1].textContent = Math.round(weatherData.temp) + "℃";
+    }
+    else if(units == "imperial") {
+        paraList[1].textContent = Math.round(weatherData.temp) + "°F";
+    }
     paraList[2].classList.add("weatherType");
     paraList[2].textContent = weatherData.weather;
     paraList[3].classList.add("humidity");
@@ -71,11 +86,51 @@ function currentTime() {
     timeDiv.textContent = time;
 }
 
-const searchButton = document.querySelector(".searchButton");
-searchButton.addEventListener("click", () => {
-    getWeather();
-})
+function cToF(celsius) {
+    let cTemp = celsius;
+    let fahrenheit = cTemp * 9 / 5 + 32;
+    return fahrenheit;
+}
+
+function fToC(fahrenheit) {
+    let fTemp = fahrenheit;
+    let celsius = (fTemp -32) * (5/9);
+    return celsius;
+}
+
+/*function tempConvert() {
+    const temp = document.querySelector(".temp");
+    if(temp.textContent.includes("℃")) {
+        temp.textContent = cToF(weatherData.temp) + "°F";
+    }
+    else if(temp.textContent.includes("°F")) {
+        temp.textContent = weatherData.temp + "℃";
+    }
+}*/
+function tempConvert() {
+    const temp = document.querySelector(".temp")
+    const toggle = document.querySelector(".switch > input");
+    if(toggle.checked != true) {
+        let fahrenheit = cToF(parseInt(temp.textContent));
+        temp.textContent = Math.round(fahrenheit)+ "°F";
+    }
+    else if(toggle.checked == true) {
+        let celsius = fToC(parseInt(temp.textContent));
+        temp.textContent = Math.round(celsius) + "℃";
+    }
+}
 
 addDOMStuff();
 getWeather();
 setInterval(currentTime, 1000);
+
+const toggle = document.querySelector(".slider");
+
+toggle.addEventListener("click", () => {
+    tempConvert();
+})
+
+const searchButton = document.querySelector(".searchButton");
+searchButton.addEventListener("click", () => {
+    getWeather();
+});
