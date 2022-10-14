@@ -6,7 +6,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
     <script src="main.js" defer></script>
-    <title>Document</title>
+    <title>Weather App</title>
 </head>
 <body>
     <div class="header">
@@ -17,7 +17,15 @@
         </div>
     </div>
     <div id="content">
-        <div class="weatherBox"></div>
+        <div class="weatherBox">
+            <label class="switch">
+                <input type="checkbox">
+                <span class="slider round">
+                    <span style="z-index: 1; margin-left: 12px;">C</span>
+                    <span style="z-index: 1; margin-left: auto; margin-right: 12px;">F</span>
+                </span>
+              </label>
+        </div>
     </div>
 </body>
 </html>
